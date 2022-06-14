@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/id-aaryan/dermai-server.git"
+    "url": "git+https://github.com/filippovarini/CDTemplate.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/id-aaryan/dermai-server"
+    "url": "https://github.com/filippovarini/CDTemplate/issues"
   },
-  "homepage": "https://github.com/id-aaryan/dermai-server#readme",
+  "homepage": "https://github.com/filippovarini/CDTemplate#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
