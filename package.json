@@ -4,19 +4,20 @@
   "description": "CD template for dockerized  NodeJs applicatinos using Heroku as Deployment platform",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 0"
+    "build": "echo \"Build for what?\" && exit 0",
+    "test": "echo \"Test for what?\" && exit 0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/filippovarini/CDTemplate.git"
+    "url": "git+https://github.com/id-aaryan/dermai-server/.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/filippovarini/CDTemplate/issues"
+    "url": "https://github.com/id-aaryan/dermai-server/"
   },
-  "homepage": "https://github.com/filippovarini/CDTemplate#readme",
+  "homepage": "https://github.com/id-aaryan/dermai-server/#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
