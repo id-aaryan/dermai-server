@@ -1,11 +1,17 @@
-const express = require("express")
+require('./config/db')
 
-const app = express()
+const app = require('express')();
+const port = process.env.PORT || 3000;
 
-app.get("*", (_, res) => {
-  res.send("Hello world!")
+const UserRouter = require('./api/User');
+
+const bodyParser = require('express').json;
+const cors = require("cors");
+// using the application
+app.use(bodyParser());
+app.use(cors());
+app.use('/user', UserRouter);
+
+app.listen(port, () => {
+    console.log("server running on port: " + port);
 })
-
-const PORT = process.env.PORT || 5001
-
-app.listen(PORT, () => console.log(`listening on port ${PORT}..`))
