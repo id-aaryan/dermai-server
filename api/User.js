@@ -1,11 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
 
-const User = require('./../models/User');
-const Image = require('./../models/Image');
+const User = require('./models/User');
 
 const bcrypt = require('bcrypt');
+const multer = require('multer');
+const path = require('path')
+
+const storage = multer.diskStorage( {
+    destination:'./uploads',
+    filename: function(req, file, cb){
+        cb(null, file.fieldname + "-" + Date.now() + 
+        path.extname(file.originalname));
+    }
+});
+
+const upload = multer ({
+    storage: storage, 
+}).single('image');
+
+router.post('/upload', (req, res) => {
+    upload(req, res, (err) => {
+        if(err) {
+            res.send("no");
+        } else {
+            console.log(req.file);
+            res.send("test");
+        }
+    })
+
+});
 
 router.post("/signup", (req, res) => {
     let {name, email, password, dateOfBirth} = req.body;
