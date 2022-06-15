@@ -6,6 +6,7 @@ const UserSchema = new Schema({
     email: String, 
     password: String,
     dateOfBirth: Date,
+    // pastDiagnosis: Map(List(Pair(String, Integer)), Date)
 });
 
 const User = mongoose.model('User', UserSchema);
