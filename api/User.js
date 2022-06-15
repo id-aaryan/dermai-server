@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
 
 const User = require('./../models/User');
+const Image = require('./../models/Image');
 
 const bcrypt = require('bcrypt');
 

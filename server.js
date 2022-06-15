@@ -10,7 +10,7 @@ const cors = require("cors");
 // using the application
 app.use(bodyParser());
 app.use(cors());
-app.use('/user', UserRouter);
+app.use('/', UserRouter);
 
 app.listen(port, () => {
     console.log("server running on port: " + port);
