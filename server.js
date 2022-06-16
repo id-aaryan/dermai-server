@@ -33,28 +33,27 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage }).single("image");
 
 app.post("/upload", upload, (req, res) => {
-const saveImage =  imageModel({
-    name: req.body.name,
-    img: {
-    data: fs.readFileSync("uploads/" +  req.file.filename),
-    contentType: "image/png",
-    },
-});
-saveImage
-    .save()
-    .then((res) => {
-    console.log("image is saved");
-    })
-    .catch((err) => {
-    console.log(err, "error has occur");
+    const saveImage =  imageModel({
+        name: req.body.name,
+        img: {
+            data: fs.readFileSync("uploads/" +  req.file.filename),
+            contentType: "image/png",
+        },
     });
-    res.send('image is saved')
+    saveImage
+        .save()
+        .then((res) => {
+            res.send("SUCCESS");
+        })
+        .catch((err) => {
+            res.send(err, "FAILURE");
+        });
 });
 
 
 app.get('/',async (req,res)=>{
-  const allData = await imageModel.find()
-  res.json(allData)
+  const allData = await imageModel.find();
+  res.json(allData);
 })
 
 app.listen(port, () => {
