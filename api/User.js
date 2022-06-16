@@ -7,29 +7,29 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path')
 
-const storage = multer.diskStorage( {
-    destination:'./uploads',
-    filename: function(req, file, cb){
-        cb(null, file.fieldname + "-" + Date.now() + 
-        path.extname(file.originalname));
-    }
-});
+// const storage = multer.diskStorage( {
+//     destination:'./uploads',
+//     filename: function(req, file, cb){
+//         cb(null, file.fieldname + "-" + Date.now() + 
+//         path.extname(file.originalname));
+//     }
+// });
 
-const upload = multer ({
-    storage: storage, 
-}).single('image');
+// const upload = multer ({
+//     storage: storage, 
+// }).single('image');
 
-router.post('/upload', (req, res) => {
-    upload(req, res, (err) => {
-        if(err) {
-            res.send("no");
-        } else {
-            console.log(req.file);
-            res.send("test");
-        }
-    })
+// router.post('/upload', (req, res) => {
+//     upload(req, res, (err) => {
+//         if(err) {
+//             res.send("upload has failed");
+//         } else {
+//             console.log(req.file);
+//             res.send("upload has been succesful");
+//         }
+//     })
 
-});
+// });
 
 router.post("/signup", (req, res) => {
     let {name, email, password, dateOfBirth} = req.body;
