@@ -8,48 +8,47 @@ const Router = require('./api/User');
 const mongoose = require("mongoose");
 const multer = require("multer");
 const fs = require("fs");
-const bodyParser = require('express').json;
+// const bodyParser = require('express').json;
 const cors = require("cors");
-const path = require('path');
-// const bodyParser = require("body-parser");
+const bodyParser = require("body-parser");
 
 // using the application
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+// app.use(bodyParser());
 app.use(cors());
 app.use('/', Router)
 
-const Image = require("./models/Image");
+const imageModel = require("./models/Image");
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'uploads')
+      cb(null, "uploads");
     },
     filename: (req, file, cb) => {
-        cb(null, file.fieldname + '-' + Date.now()+path.extname)
-    }
-});
+      cb(null, file.originalname);
+    },
+  });
 
 const upload = multer({ storage: storage }).single("image");
 
 app.post("/upload", upload, (req, res) => {
-    const saveImage = Image({
-        // name: req.body.name,
-        img: {
-            data: fs.readFileSync(path.join(__dirname + '/uploads/' + req.file.filename)),
-            contentType: "image/png",
-        },
+const saveImage =  imageModel({
+    name: req.body.name,
+    img: {
+    data: fs.readFileSync("uploads/" +  req.file.filename),
+    contentType: "image/png",
+    },
+});
+saveImage
+    .save()
+    .then((res) => {
+    console.log("image is saved");
+    })
+    .catch((err) => {
+    console.log(err, "error has occur");
     });
-    saveImage
-        .save()
-        .then((res) => {
-        console.log("image is saved");
-        })
-        .catch((err) => {
-        console.log(err, "error has occur");
-        });
-        res.send('image is saved')
+    res.send('image is saved')
 });
 
 
