@@ -168,23 +168,58 @@ router.post("/signin", (req, res) => {
 router.post("/upload", (req, res) => {
     let {email, url} = req.body;
     email = email.trim();
-    url = url.trim();
-
+    url = url;
+    
+    // User.find({email}).then(data => {
+    //     if (data.length != 0) {
+    //         console.log(data.length);
+    //         data[0].images = url;
+    //         res.json({
+    //             status: "FAILED",
+    //             message: "valid"
+    //         })
+    //     } else {
+    //         res.json({
+    //             status: "FAILED",
+    //             message: "Invalid credentials"
+    //         })
+    //     }
+    // }).catch(err => {
+    //     res.json({
+    //         status: "FAILED",
+    //         message: "Error while finding user"
+    //     })
+    // })
     if (email == "" || url == "") {
         res.json({
             status: "FAILED",
             message: "Cannot have empty field"
         })
     } else {
-        User.update(
-            {"email" : email},
-            {$set: {"images" : url}}
-        ).catch(err =>{
+        User.update({email}, { $set: { "images" : url } })
+        .then(() => {
+            res.json({
+                status: "Success",
+                message: "finding user"
+            })
+        })
+        .catch(err =>{
+            console.log("here");
             res.json({
                 status: "FAILED",
                 message: "Error while finding user"
             })
         })
+        // User.updateOne(
+        //     {email},
+        //     {$set: {"images" : url}}
+        // ).catch(err =>{
+        //     console.log("here");
+        //     res.json({
+        //         status: "FAILED",
+        //         message: "Error while finding user"
+        //     })
+        // })
     }
 
 })
