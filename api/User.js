@@ -166,9 +166,11 @@ router.post("/signin", (req, res) => {
 })
 
 router.post("/upload", (req, res) => {
-    let {email, url} = req.body;
+    let {email, images} = req.body;
+    console.log(req.body);
     email = email.trim();
-    url = url;
+    images = images;
+    console.log(images);
     
     // User.find({email}).then(data => {
     //     if (data.length != 0) {
@@ -190,14 +192,15 @@ router.post("/upload", (req, res) => {
     //         message: "Error while finding user"
     //     })
     // })
-    if (email == "" || url == "") {
+    if (email == "" || images == "") {
         res.json({
             status: "FAILED",
             message: "Cannot have empty field"
         })
     } else {
-        User.update({email}, { $set: { "images" : url } })
+        User.update({email}, { $set: { "images" : images } })
         .then(() => {
+            console.log(images);
             res.json({
                 status: "Success",
                 message: "finding user"
