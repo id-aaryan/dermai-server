@@ -202,7 +202,7 @@ router.post("/upload", (req, res) => {
         .then(() => {
             console.log(images);
             res.json({
-                status: "Success",
+                status: "SUCCESS",
                 message: "finding user"
             })
         })
