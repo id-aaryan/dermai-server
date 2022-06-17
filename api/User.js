@@ -170,7 +170,7 @@ router.post("/upload", (req, res) => {
 
 })
 
-router.get("/results", (req, res) => {
+router.post("/results", (req, res) => {
     let {email} = req.body;
     email = email.trim();
 
