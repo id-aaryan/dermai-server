@@ -177,9 +177,16 @@ router.get("/results", (req, res) => {
     User.find({email}).then(data => {
         if (data.length != 0) {
             const imageUrl = data[0].images;
-            res.send(imageUrl);
+            res.json({
+                data: imageUrl,
+                status: "SUCCESS",
+                message: "Image uploaded succesfully"
+            });
         } else {
-            res.send("not working")
+            res.json({
+                status: "FAILED",
+                message: "Not found"
+            });
         }
     }).catch(err => {
 
