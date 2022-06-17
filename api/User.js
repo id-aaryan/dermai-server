@@ -7,29 +7,6 @@ const bcrypt = require('bcrypt');
 const multer = require('multer');
 const path = require('path')
 
-// const storage = multer.diskStorage( {
-//     destination:'./uploads',
-//     filename: function(req, file, cb){
-//         cb(null, file.fieldname + "-" + Date.now() + 
-//         path.extname(file.originalname));
-//     }
-// });
-
-// const upload = multer ({
-//     storage: storage, 
-// }).single('image');
-
-// router.post('/upload', (req, res) => {
-//     upload(req, res, (err) => {
-//         if(err) {
-//             res.send("upload has failed");
-//         } else {
-//             console.log(req.file);
-//             res.send("upload has been succesful");
-//         }
-//     })
-
-// });
 
 router.post("/signup", (req, res) => {
     let {name, email, password, dateOfBirth} = req.body;
@@ -54,12 +31,12 @@ router.post("/signup", (req, res) => {
             status: "FAILED",
             message: "Invalid email"
         });
-    }/*  else if (!new Date(dateOfBirth).getTime()) {
+    } else if (! (0 < Number(dateOfBirth) < 100)) {
         res.json({
             status: "FAILED",
-            message: "Invalid dob"
+            message: "Invalid age"
         }); 
-    }*/ else if (password.length<8) {
+    } else if (password.length<8) {
         res.json({
             status: "FAILED",
             message: "Invalid password"
@@ -167,64 +144,46 @@ router.post("/signin", (req, res) => {
 
 router.post("/upload", (req, res) => {
     let {email, images} = req.body;
-    console.log(req.body);
     email = email.trim();
     images = images;
-    console.log(images);
     
-    // User.find({email}).then(data => {
-    //     if (data.length != 0) {
-    //         console.log(data.length);
-    //         data[0].images = url;
-    //         res.json({
-    //             status: "FAILED",
-    //             message: "valid"
-    //         })
-    //     } else {
-    //         res.json({
-    //             status: "FAILED",
-    //             message: "Invalid credentials"
-    //         })
-    //     }
-    // }).catch(err => {
-    //     res.json({
-    //         status: "FAILED",
-    //         message: "Error while finding user"
-    //     })
-    // })
     if (email == "" || images == "") {
         res.json({
             status: "FAILED",
             message: "Cannot have empty field"
         })
     } else {
-        User.update({email}, { $set: { "images" : images } })
+        User.updateOne({email}, { $set: { "images" : images } })
         .then(() => {
-            console.log(images);
             res.json({
                 status: "SUCCESS",
-                message: "finding user"
+                message: "Updated Successfully"
             })
         })
         .catch(err =>{
-            console.log("here");
             res.json({
                 status: "FAILED",
                 message: "Error while finding user"
             })
         })
-        // User.updateOne(
-        //     {email},
-        //     {$set: {"images" : url}}
-        // ).catch(err =>{
-        //     console.log("here");
-        //     res.json({
-        //         status: "FAILED",
-        //         message: "Error while finding user"
-        //     })
-        // })
     }
 
+})
+
+router.get("/results", (req, res) => {
+    let {email} = req.body;
+    email = email.trim();
+
+    User.find({email}).then(data => {
+        if (data.length != 0) {
+            const imageUrl = data[0].images;
+            res.send(imageUrl);
+        } else {
+            res.send("not working")
+        }
+    }).catch(err => {
+
+    })
 })
 
 module.exports = router;
