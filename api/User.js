@@ -54,12 +54,12 @@ router.post("/signup", (req, res) => {
             status: "FAILED",
             message: "Invalid email"
         });
-    } else if (!new Date(dateOfBirth).getTime()) {
+    }/*  else if (!new Date(dateOfBirth).getTime()) {
         res.json({
             status: "FAILED",
             message: "Invalid dob"
-        });
-    } else if (password.length<8) {
+        }); 
+    }*/ else if (password.length<8) {
         res.json({
             status: "FAILED",
             message: "Invalid password"
@@ -156,6 +156,30 @@ router.post("/signin", (req, res) => {
                 })
             }
         }).catch(err => {
+            res.json({
+                status: "FAILED",
+                message: "Error while finding user"
+            })
+        })
+    }
+
+})
+
+router.post("/upload", (req, res) => {
+    let {email, url} = req.body;
+    email = email.trim();
+    url = url.trim();
+
+    if (email == "" || url == "") {
+        res.json({
+            status: "FAILED",
+            message: "Cannot have empty field"
+        })
+    } else {
+        User.update(
+            {"email" : email},
+            {$set: {"images" : url}}
+        ).catch(err =>{
             res.json({
                 status: "FAILED",
                 message: "Error while finding user"
