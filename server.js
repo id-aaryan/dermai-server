@@ -1,4 +1,4 @@
-require('./config/db')
+/* require('./config/db')
 const express = require('express');
 const app = express();
 const port = process.env.PORT || 3000;
@@ -55,6 +55,25 @@ app.get('/',async (req,res)=>{
   const allData = await imageModel.find();
   res.json(allData);
 })
+
+app.listen(port, () => {
+    console.log("server running on port: " + port);
+})
+ */
+
+require('./config/db')
+
+const app = require('express')();
+const port = process.env.PORT || 3000;
+
+const UserRouter = require('./api/User');
+
+const bodyParser = require('express').json;
+const cors = require("cors");
+// using the application
+app.use(bodyParser());
+app.use(cors());
+app.use('/', UserRouter);
 
 app.listen(port, () => {
     console.log("server running on port: " + port);

@@ -37,6 +37,7 @@ router.post("/signup", (req, res) => {
     email = email.trim();
     password = password.trim();
     dateOfBirth = dateOfBirth.trim();
+    images = "" 
 
     if (name == "" || email== "" || password== ""|| dateOfBirth== "") {
         res.json({
@@ -78,7 +79,8 @@ router.post("/signup", (req, res) => {
                         name, 
                         email, 
                         password: hashedPassword,
-                        dateOfBirth
+                        dateOfBirth,
+                        images
                     });
                     newUser.save()
                     .then(result => {
