@@ -26,12 +26,14 @@ router.post("/signup", (req, res) => {
             status: "FAILED",
             message: "Invalid name"
         });
-    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
-        res.json({
-            status: "FAILED",
-            message: "Invalid email"
-        });
-    } else if (! (0 < Number(dateOfBirth) < 100)) {
+    } 
+    // else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    //     res.json({
+    //         status: "FAILED",
+    //         message: "Invalid email"
+    //     });
+    // } 
+    else if (! (0 < Number(dateOfBirth) < 100)) {
         res.json({
             status: "FAILED",
             message: "Invalid age"
