@@ -36,12 +36,14 @@ router.post("/signup", (req, res) => {
             status: "FAILED",
             message: "Invalid age"
         }); 
-    } else if (password.length<8) {
-        res.json({
-            status: "FAILED",
-            message: "Invalid password"
-        });
-    } else {
+    } 
+    // else if (password.length<8) {
+    //     res.json({
+    //         status: "FAILED",
+    //         message: "Invalid password"
+    //     });
+    // }
+     else {
         User.find({email}).then(result => {
             if (result.length) {
                 res.json({
@@ -192,5 +194,43 @@ router.post("/results", (req, res) => {
 
     })
 })
+
+router.post("/excema", (req, res) => {
+    // strategy 0 is two white patients not both excema
+    // strategy 1, 2, 3 is one white and one black both excema
+    // strategy 4 is two white both excema
+    var excemaExamples = new Array(
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema8_fodu2m.jpg",         
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema7_ievmxe.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema6_skfjzm.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema2_fjsrwo.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema1_gef6lh.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema3_dlf6as.jpg"
+        );
+    const strategy = Math.floor(Math.random() * (5));
+    const image1 = Math.floor(Math.random() * 3);
+    const image2 = Math.floor(Math.random() * 3);
+    var image1Url = "";
+    var image2Url = "";
+    if(strategy == 0) {
+        image1Url = excemaExamples[image1];
+        image2Url = excemaExamples[image2];
+    } else if (strategy == 4) {
+        image1Url = excemaExamples[image1];
+        image2Url = excemaExamples[image2];
+    } else {
+        image1Url = excemaExamples[image1+3];
+        image2Url = excemaExamples[image2+3];
+    }
+    res.json({
+        image1: image1Url,
+        image2: image2Url,
+        status: "SUCCESS",
+        message: "Image uploaded succesfully"
+    });
+})
+
+
+
 
 module.exports = router;
