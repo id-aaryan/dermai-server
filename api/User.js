@@ -209,9 +209,10 @@ router.post("/excema", (req, res) => {
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema1_gef6lh.jpg",
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema3_dlf6as.jpg"
         );
-    const strategy = Math.floor(Math.random() * (5));
+    const strategy = Math.floor(Math.random() * 5);
+    const quizQuestionType = Math.floor(Math.random() * 2);
     const image1 = Math.floor(Math.random() * 3);
-    const image2 = Math.floor(Math.random() * 3);
+    const image2 = (image1 + 1) % 3;
     var image1Url = "";
     var image2Url = "";
     if(strategy == 0) {
@@ -227,12 +228,10 @@ router.post("/excema", (req, res) => {
     res.json({
         image1: image1Url,
         image2: image2Url,
+        quizType: quizQuestionType,
         status: "SUCCESS",
         message: "Image uploaded succesfully"
     });
 })
-
-
-
 
 module.exports = router;
