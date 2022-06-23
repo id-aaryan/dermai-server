@@ -8,6 +8,7 @@ const UserSchema = new Schema({
     dateOfBirth: String,
     images: String,
     quiz: String,
+    diagnoses: Boolean
     // pastDiagnosis: Map(List(Pair(String, Integer)), Date)
 });
 

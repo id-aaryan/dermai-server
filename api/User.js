@@ -16,6 +16,7 @@ router.post("/signup", (req, res) => {
     dateOfBirth = dateOfBirth.trim();
     images = "";
     quiz = "-1";
+    diagnoses = false;
 
     if (name == "" || email== "" || password== ""|| dateOfBirth== "") {
         res.json({
@@ -206,6 +207,17 @@ router.post("/quizSubmit", (req, res) => {
 router.post("/quizGet", (req, res) => {
     res.json({
         quiz: quiz,
+    });
+})
+
+router.post("/doctorDiagnosis", (req, res) => {
+    let { response } = req.body;
+    diagnoses = response;
+})
+
+router.post("/getDiagnosis", (req, res) => {
+    res.json({
+        diagnoses: diagnoses,
     });
 })
 
