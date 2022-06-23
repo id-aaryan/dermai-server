@@ -212,12 +212,23 @@ router.post("/quizGet", (req, res) => {
 
 router.post("/doctorDiagnosis", (req, res) => {
     let { response } = req.body;
-    diagnoses = response;
+    correct = response;
 })
 
 router.post("/getDiagnosis", (req, res) => {
     res.json({
-        diagnoses: diagnoses,
+        correct: correct,
+    });
+})
+
+router.post("/opinionCollect", (req, res) => {
+    let { diagnoses } = req.body;
+    diagnosis = diagnoses;
+})
+
+router.post("/opinionShow", (req, res) => {
+    res.json({
+        diagnosis: diagnosis,
     });
 })
 
