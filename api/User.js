@@ -14,7 +14,8 @@ router.post("/signup", (req, res) => {
     email = email.trim();
     password = password.trim();
     dateOfBirth = dateOfBirth.trim();
-    images = "" 
+    images = "";
+    quiz = -1;
 
     if (name == "" || email== "" || password== ""|| dateOfBirth== "") {
         res.json({
@@ -195,6 +196,17 @@ router.post("/results", (req, res) => {
     }).catch(err => {
 
     })
+})
+
+router.post("/quizSubmit", (req, res) => {
+    let { score } = req.body;
+    quiz = score;
+})
+
+router.post("/quizGet", (req, res) => {
+    res.json({
+        quiz: quiz,
+    });
 })
 
 router.post("/excema", (req, res) => {
