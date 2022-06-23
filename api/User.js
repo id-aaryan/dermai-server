@@ -15,7 +15,7 @@ router.post("/signup", (req, res) => {
     password = password.trim();
     dateOfBirth = dateOfBirth.trim();
     images = "";
-    quiz = -1;
+    quiz = "-1";
 
     if (name == "" || email== "" || password== ""|| dateOfBirth== "") {
         res.json({

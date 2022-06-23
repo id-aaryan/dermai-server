@@ -7,7 +7,7 @@ const UserSchema = new Schema({
     password: String,
     dateOfBirth: String,
     images: String,
-    quiz: Integer,
+    quiz: String,
     // pastDiagnosis: Map(List(Pair(String, Integer)), Date)
 });
 
