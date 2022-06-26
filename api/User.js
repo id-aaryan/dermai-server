@@ -288,15 +288,65 @@ router.post("/doctorDiagnosis", (req, res) => {
     }
 })
 
-router.post("/opinionShow", (req, res) => {
+router.post("/getDoctorDiagnosis", (req, res) => {
     let {email} = req.body;
     email = email.trim();
 
     User.find({email}).then(data => {
         if (data.length != 0) {
-            const diagnosis = data[0].correct;
+            const correct = data[0].correct;
             res.json({
                 data: correct,
+                status: "SUCCESS",
+                message: "Image uploaded succesfully"
+            });
+        } else {
+            res.json({
+                status: "FAILED",
+                message: "Not found"
+            });
+        }
+    }).catch(err => {
+
+    })
+})
+
+router.post("/diagnosisConfirmed", (req, res) => {
+    let {email, confirmed} = req.body;
+    email = email.trim();
+    confirmed = confirmed;
+    
+    if (email == "" || confirmed == "") {
+        res.json({
+            status: "FAILED",
+            message: "Cannot have empty field"
+        })
+    } else {
+        User.updateOne({email}, { $set: { "confirmed" : confirmed } })
+        .then(() => {
+            res.json({
+                status: "SUCCESS",
+                message: "Updated Successfully"
+            })
+        })
+        .catch(err =>{
+            res.json({
+                status: "FAILED",
+                message: "Error while finding user"
+            })
+        })
+    }
+})
+
+router.post("/getConfirmation", (req, res) => {
+    let {email} = req.body;
+    email = email.trim();
+
+    User.find({email}).then(data => {
+        if (data.length != 0) {
+            const confirmed = data[0].confirmed;
+            res.json({
+                data: confirmed,
                 status: "SUCCESS",
                 message: "Image uploaded succesfully"
             });
