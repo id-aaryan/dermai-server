@@ -211,26 +211,104 @@ router.post("/quizGet", (req, res) => {
     });
 })
 
-router.post("/doctorDiagnosis", (req, res) => {
-    let { response } = req.body;
-    correct = response;
-})
-
-router.post("/getDiagnosis", (req, res) => {
-    res.json({
-        correct: correct,
-    });
-})
-
 router.post("/opinionCollect", (req, res) => {
-    let { diagnoses } = req.body;
-    diagnosis = diagnoses;
+    let {email, diagnosis} = req.body;
+    email = email.trim();
+    diagnosis = diagnosis;
+    
+    if (email == "" || diagnosis == "") {
+        res.json({
+            status: "FAILED",
+            message: "Cannot have empty field"
+        })
+    } else {
+        User.updateOne({email}, { $set: { "diagnosis" : diagnosis } })
+        .then(() => {
+            res.json({
+                status: "SUCCESS",
+                message: "Updated Successfully"
+            })
+        })
+        .catch(err =>{
+            res.json({
+                status: "FAILED",
+                message: "Error while finding user"
+            })
+        })
+    }
 })
 
 router.post("/opinionShow", (req, res) => {
-    res.json({
-        diagnosis: diagnosis,
-    });
+    let {email} = req.body;
+    email = email.trim();
+
+    User.find({email}).then(data => {
+        if (data.length != 0) {
+            const diagnosis = data[0].diagnosis;
+            res.json({
+                data: diagnosis,
+                status: "SUCCESS",
+                message: "Image uploaded succesfully"
+            });
+        } else {
+            res.json({
+                status: "FAILED",
+                message: "Not found"
+            });
+        }
+    }).catch(err => {
+
+    })
+})
+
+router.post("/doctorDiagnosis", (req, res) => {
+    let {email, correct} = req.body;
+    email = email.trim();
+    correct = correct;
+    
+    if (email == "" || correct == "") {
+        res.json({
+            status: "FAILED",
+            message: "Cannot have empty field"
+        })
+    } else {
+        User.updateOne({email}, { $set: { "correct" : correct } })
+        .then(() => {
+            res.json({
+                status: "SUCCESS",
+                message: "Updated Successfully"
+            })
+        })
+        .catch(err =>{
+            res.json({
+                status: "FAILED",
+                message: "Error while finding user"
+            })
+        })
+    }
+})
+
+router.post("/opinionShow", (req, res) => {
+    let {email} = req.body;
+    email = email.trim();
+
+    User.find({email}).then(data => {
+        if (data.length != 0) {
+            const diagnosis = data[0].correct;
+            res.json({
+                data: correct,
+                status: "SUCCESS",
+                message: "Image uploaded succesfully"
+            });
+        } else {
+            res.json({
+                status: "FAILED",
+                message: "Not found"
+            });
+        }
+    }).catch(err => {
+
+    })
 })
 
 router.post("/excema", (req, res) => {
