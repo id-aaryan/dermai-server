@@ -18,6 +18,7 @@ router.post("/signup", (req, res) => {
     quiz = "-1";
     diagnosis = "";
     correct = false;
+    confirmed = false;
 
     if (name == "" || email== "" || password== ""|| dateOfBirth== "") {
         res.json({
