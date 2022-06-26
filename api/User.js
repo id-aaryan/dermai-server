@@ -20,7 +20,7 @@ router.post("/signup", (req, res) => {
     correct = false;
     confirmed = false;
 
-    if (name == "" || email== "" || password== ""|| dateOfBirth== "") {
+    if (name == "" || email == "" || password == ""|| dateOfBirth == "") {
         res.json({
             status: "FAILED",
             message: "Empty input field"
@@ -65,7 +65,11 @@ router.post("/signup", (req, res) => {
                         email, 
                         password: hashedPassword,
                         dateOfBirth,
-                        images
+                        images,
+                        diagnosis, 
+                        quiz, 
+                        correct,
+                        confirmed
                     });
                     newUser.save()
                     .then(result => {
@@ -175,7 +179,6 @@ router.post("/upload", (req, res) => {
             })
         })
     }
-
 })
 
 router.post("/results", (req, res) => {
@@ -366,34 +369,77 @@ router.post("/excema", (req, res) => {
     // strategy 0 is two white patients not both excema
     // strategy 1, 2, 3 is one white and one black both excema
     // strategy 4 is two white both excema
-    var excemaExamples = new Array(
+    var excema = new Array(
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema8_fodu2m.jpg",         
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema7_ievmxe.jpg",
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema6_skfjzm.jpg",
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema2_fjsrwo.jpg",
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema1_gef6lh.jpg",
         "https://res.cloudinary.com/dveg6urfn/image/upload/v1655732988/excema/excema3_dlf6as.jpg"
-        );
+     );
+    var keloids = new Array(
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913344/keloids/Screen_Shot_2021-03-03_at_11.43.49_PM_fnry1r.jpg",         
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913344/keloids/Screen_Shot_2021-03-03_at_10.37.55_PM_vbnyb2.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913344/keloids/Screen_Shot_2021-03-03_at_10.40.29_PM_ayd6mj.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913344/keloids/Screen_Shot_2021-03-03_at_9.04.19_PM_unyolv.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913345/keloids/Screen_Shot_2021-03-03_at_9.01.32_PM_iube5r.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913345/keloids/Screen_Shot_2021-03-03_at_9.02.20_PM_izm4hy.jpg"
+    );
+    var psoriasis = new Array(
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913724/psoriases/promo-13_otkueu.jpg",         
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913723/psoriases/7_qvleab.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913723/psoriases/4_as5ocd.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913723/psoriases/2_wbwftr.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913723/psoriases/1_zhyymm.jpg",
+        "https://res.cloudinary.com/dveg6urfn/image/upload/v1655913723/psoriases/images_veyf43.jpg"
+    );
     const strategy = Math.floor(Math.random() * 5);
+    const conditionType = Math.floor(Math.random() * 3);
     const quizQuestionType = Math.floor(Math.random() * 2);
     const image1 = Math.floor(Math.random() * 3);
     const image2 = (image1 + 1) % 3;
     var image1Url = "";
     var image2Url = "";
-    if(strategy == 0) {
-        image1Url = excemaExamples[image1];
-        image2Url = excemaExamples[image2];
-    } else if (strategy == 4) {
-        image1Url = excemaExamples[image1];
-        image2Url = excemaExamples[image2];
-    } else {
-        image1Url = excemaExamples[image1+3];
-        image2Url = excemaExamples[image2+3];
+    if (conditionType == 0) {
+        if(strategy == 0) {
+            image1Url = excema[image1];
+            image2Url = excema[image2];
+        } else if (strategy == 4) {
+            image1Url = excema[image1];
+            image2Url = excema[image2];
+        } else {
+            image1Url = excema[image1+3];
+            image2Url = excema[image2+3];
+        }
+    } else if (conditionType == 1) {
+        if(strategy == 0) {
+            image1Url = psoriasis[image1];
+            image2Url = psoriasis[image2];
+        } else if (strategy == 4) {
+            image1Url = psoriasis[image1];
+            image2Url = psoriasis[image2+3];
+        } else {
+            image1Url = psoriasis[image1+3];
+            image2Url = psoriasis[image2+3];
+        }
+    } else if (conditionType == 2) {
+        if(strategy == 0) {
+            image1Url = keloids[image1];
+            image2Url = keloids[image2];
+        } else if (strategy == 4) {
+            image1Url = keloids[image1];
+            image2Url = keloids[image2];
+        } else {
+            image1Url = keloids[image1+3];
+            image2Url = keloids[image2+3];
+        }
     }
+
     res.json({
         image1: image1Url,
         image2: image2Url,
         quizType: quizQuestionType,
+        condition: conditionType,
         status: "SUCCESS",
         message: "Image uploaded succesfully"
     });
