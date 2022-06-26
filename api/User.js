@@ -267,7 +267,7 @@ router.post("/doctorDiagnosis", (req, res) => {
     email = email.trim();
     correct = correct;
     
-    if (email == "" || correct == "") {
+    if (email == "") {
         res.json({
             status: "FAILED",
             message: "Cannot have empty field"
@@ -317,7 +317,7 @@ router.post("/diagnosisConfirmed", (req, res) => {
     email = email.trim();
     confirmed = confirmed;
     
-    if (email == "" || confirmed == "") {
+    if (email == "") {
         res.json({
             status: "FAILED",
             message: "Cannot have empty field"
